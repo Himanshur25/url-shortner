@@ -5,7 +5,8 @@ const urlRoutes = require("./routes");
 const userRoutes = require("./routes/user");
 const staticRoute = require("./routes/staticRoute");
 const { mongoConnection } = require("./config");
-const url = require("./models");
+const cookieParser = require("cookie-parser");
+const { restrictUserLogin } = require("./middlewares/auth");
 
 const PORT = 8001;
 
@@ -20,10 +21,11 @@ app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/", staticRoute);
-app.use("/url", urlRoutes);
+app.use("/url", restrictUserLogin, urlRoutes);
 app.use("/user", userRoutes);
 
 app.listen(8001, () => {
