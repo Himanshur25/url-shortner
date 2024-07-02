@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <div style="background-color: black; width: 100%; height: 100vh">
+      <div
+        style="
+          text-align: center;
+          background-color: aquamarine;
+          color: black;
+          font-size: xx-large;
+          font-weight: 700;
+        "
+      >
+        URL SHORTNER
+      </div>
+
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: aliceblue;
+          width: 100%;
+          height: 90%;
+          flex-direction: column;
+        "
+      >
+        <form method="POST" action="/url" style="flex-direction: column">
+          <label style="font-size: small"
+            >Enter the URL that needs to be short</label
+          >
+          <br />
+          <input
+            type="text"
+            placeholder="example@exam.com"
+            name="url"
+            style="width: 200px"
+          />
+          <button type="submit">Generate URL</button>
+        </form>
+        <% if (locals.id) { %>
+        <a
+          href="http://localhost:8001/url/<%- id %>"
+          target="_blank"
+          style="color: white; margin-top: 40px"
+          >Generated URL is:- http://localhost:8001/url/<%- id %></a
+        >
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
