@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const userRoutes = require("./routes");
+const urlRoutes = require("./routes");
+const userRoutes = require("./routes/user");
+const staticRoute = require("./routes/staticRoute");
 const { mongoConnection } = require("./config");
 const url = require("./models");
-// const url = require("./models");
 
 const PORT = 8001;
 
@@ -21,14 +22,9 @@ app.set("views", path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", async (req, res) => {
-  const urls = await url.find({});
-  res.render("home", {
-    data: urls,
-  });
-});
-
-app.use("/url", userRoutes);
+app.use("/", staticRoute);
+app.use("/url", urlRoutes);
+app.use("/user", userRoutes);
 
 app.listen(8001, () => {
   console.log(`Server Started on PORT ${PORT}`);
