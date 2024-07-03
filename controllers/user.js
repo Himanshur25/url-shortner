@@ -16,9 +16,8 @@ async function handleUserLogin(req, res) {
       error: "Invalid Credentials",
     });
   }
-  const sessionId = uuidV4();
-  setUser(sessionId, result);
-  res.cookie("id", sessionId);
+  const token = setUser(result);
+  res.cookie("id", token);
   return res.redirect("/");
 }
 
