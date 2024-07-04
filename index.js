@@ -6,7 +6,10 @@ const userRoutes = require("./routes/user");
 const staticRoute = require("./routes/staticRoute");
 const { mongoConnection } = require("./config");
 const cookieParser = require("cookie-parser");
-const { restrictUserLogin } = require("./middlewares/auth");
+const {
+  checkUserForAuthentication,
+  accessToUser,
+} = require("./middlewares/auth");
 
 const PORT = 8001;
 
@@ -23,9 +26,10 @@ app.set("views", path.resolve("./views"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use(checkUserForAuthentication);
 
 app.use("/", staticRoute);
-app.use("/url", restrictUserLogin, urlRoutes);
+app.use("/url", accessToUser(["GUEST"]), urlRoutes);
 app.use("/user", userRoutes);
 
 app.listen(8001, () => {

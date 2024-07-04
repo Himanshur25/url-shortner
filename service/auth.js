@@ -1,20 +1,24 @@
 const jwt = require("jsonwebtoken");
-const uniqueKey = "himanshu@hi.2$.com";
+const dotenv = require("dotenv");
+
+dotenv.config();
+const API_KEY = process.env.AUTH_SECRET_KEY;
 
 function setUser(user) {
   return jwt.sign(
     {
       _id: user._id,
       email: user.email,
+      role: user.role,
     },
-    uniqueKey
+    API_KEY
   );
 }
 
 function getUser(token) {
   if (!token) return null;
   try {
-    return jwt.verify(token, uniqueKey);
+    return jwt.verify(token, API_KEY);
   } catch (error) {
     return null;
   }
